@@ -16,18 +16,21 @@ const ArtistItem = styled.div`
 `
 
 interface ArtistSearchResultProps {
-    artists: Artist[]
+    artists: Artist[],
+    // currentSearchText: string;
 }
 
 interface ArtistSearchResultState {
-    topTracks: Track[]
+    topTracks: Track[],
+    // currentSearchText: string;
 }
 
 class ArtistSearchResult extends Component<ArtistSearchResultProps, ArtistSearchResultState> {
     constructor(props: ArtistSearchResultProps) {
         super(props);
         this.state = {
-            topTracks: []
+            topTracks: [],
+            // currentSearchText: this.props.currentSearchText
         }
     }
 
@@ -38,11 +41,17 @@ class ArtistSearchResult extends Component<ArtistSearchResultProps, ArtistSearch
             });
     }
 
-    static getDerivedStateFromProps(nextProps: ArtistSearchResultProps, prevState: ArtistSearchResultState) {
-        return {
-            topTracks: []
-        }
-    }
+    // static getDerivedStateFromProps(nextProps: ArtistSearchResultProps, prevState: ArtistSearchResultState) {
+    //     if (nextProps.currentSearchText !== prevState.currentSearchText) {
+    //         return {
+    //             topTracks: prevState.topTracks
+    //         }
+    //     } else {
+    //         return {
+    //             topTracks: []
+    //         }
+    //     }
+    // }
 
     render() {
         console.log(this.state);

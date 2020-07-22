@@ -14,7 +14,8 @@ axios.interceptors.request.use(function (config) {
 });
 
 interface AppState {
-  artists: Artist[]
+  artists: Artist[],
+  currentSearchText: string;
 }
 
 class App extends Component<any, AppState> {
@@ -23,13 +24,14 @@ class App extends Component<any, AppState> {
     super(props);
     this.inputRef = React.createRef();
     this.state = {
-      artists: []
+      artists: [],
+      currentSearchText: ''
     }
   }
   onSearch = () => {
     axios.get(`/search?q=${encodeURI(this.inputRef.current.value)}&type=artist`)
       .then((response: any) => {
-        this.setState({ artists: response.data.artists.items });
+        this.setState({ artists: response.data.artists.items, currentSearchText: this.inputRef.current.value});
       });
   }
   render() {
@@ -50,7 +52,7 @@ class App extends Component<any, AppState> {
             </div>
           </div>
           <div className="artists-search-result" style={{width: '100%'}}>
-            <ArtistSearchResult artists={this.state.artists}></ArtistSearchResult>
+            <ArtistSearchResult artists={this.state.artists} key={this.state.currentSearchText}></ArtistSearchResult>
           </div>
         </div>
       </div>
