@@ -23,7 +23,7 @@ interface ArtistSearchResultState {
     topTracks: Track[]
 }
 
-class ArtistSearchResult extends Component<ArtistSearchResultProps, any> {
+class ArtistSearchResult extends Component<ArtistSearchResultProps, ArtistSearchResultState> {
     constructor(props: ArtistSearchResultProps) {
         super(props);
         this.state = {
@@ -38,7 +38,14 @@ class ArtistSearchResult extends Component<ArtistSearchResultProps, any> {
             });
     }
 
+    static getDerivedStateFromProps(nextProps: ArtistSearchResultProps, prevState: ArtistSearchResultState) {
+        return {
+            topTracks: []
+        }
+    }
+
     render() {
+        console.log(this.state);
         return (
             <div>
                 <WrapListArtists>

@@ -15,7 +15,7 @@ const WrapImageTrack = styled.div`
 
 const ImageTrack = styled.img`
     width: 100%;
-    height: 100%
+    height: 100%;
 `
 
 const WrapContentTrack = styled.div`
@@ -30,7 +30,10 @@ class ArtistTopTrack extends Component<ArtistTopTracktProps, any> {
     constructor(props: ArtistTopTracktProps) {
         super(props);
     }
+
     render() {
+        
+        console.log(this.props);
         return (
             <div className="list-group">
                 {

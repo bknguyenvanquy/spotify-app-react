@@ -49,7 +49,7 @@ class App extends Component<any, AppState> {
               <button className="btn btn-outline-secondary" type="button" onClick={this.onSearch}>Search</button>
             </div>
           </div>
-          <div className="artists-search-result">
+          <div className="artists-search-result" style={{width: '100%'}}>
             <ArtistSearchResult artists={this.state.artists}></ArtistSearchResult>
           </div>
         </div>
