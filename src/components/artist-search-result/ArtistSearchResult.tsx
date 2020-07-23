@@ -28,21 +28,28 @@ interface ArtistSearchResultProps {
 }
 
 interface ArtistSearchResultState {
-    topTracks: Track[]
+    topTracks: Track[],
+    loadingFlg: boolean
 }
 
 class ArtistSearchResult extends Component<ArtistSearchResultProps, ArtistSearchResultState> {
+
+    // loadingFlg: boolean = false;
+
     constructor(props: ArtistSearchResultProps) {
         super(props);
         this.state = {
-            topTracks: []
+            topTracks: [],
+            loadingFlg: false
         }
     }
 
     onSearchTopTrack = (artist: Artist) => {
+        this.setState({ loadingFlg: true });
         axios.get(`artists/${artist.id}/top-tracks?country=US`)
             .then((response: any) => {
-                this.setState({ topTracks: response.data.tracks });
+                this.setState({ topTracks: response.data.tracks, loadingFlg: false });
+                // this.loadingFlg = false;
             });
     }
 
@@ -66,7 +73,9 @@ class ArtistSearchResult extends Component<ArtistSearchResultProps, ArtistSearch
                     }
                 </WrapListArtists>
                 <br /><br />
-                <ArtistTopTrack topTracks={this.state.topTracks}></ArtistTopTrack>
+                {
+                    this.state.loadingFlg ? <h5>Loading...</h5> : <ArtistTopTrack topTracks={this.state.topTracks}></ArtistTopTrack>
+                }
             </div>
         );
     }

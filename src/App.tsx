@@ -16,6 +16,7 @@ axios.interceptors.request.use(function (config) {
 interface AppState {
   artists: Artist[],
   currentSearchText: string;
+  loadingFlg: boolean;
 }
 
 class App extends Component<any, AppState> {
@@ -25,14 +26,16 @@ class App extends Component<any, AppState> {
     this.inputRef = React.createRef();
     this.state = {
       artists: [],
-      currentSearchText: ''
+      currentSearchText: '',
+      loadingFlg: false
     }
   }
 
   onSearch = () => {
+    this.setState({loadingFlg: true});
     axios.get(`/search?q=${encodeURI(this.inputRef.current.value)}&type=artist`)
       .then((response: any) => {
-        this.setState({ artists: response.data.artists.items, currentSearchText: this.inputRef.current.value });
+        this.setState({ artists: response.data.artists.items, currentSearchText: this.inputRef.current.value, loadingFlg: false });
       });
   }
 
@@ -64,7 +67,9 @@ class App extends Component<any, AppState> {
             </div>
           </div>
           <div className="artists-search-result" style={{ width: '100%' }}>
-            <ArtistSearchResult artists={this.state.artists} key={this.state.currentSearchText}></ArtistSearchResult>
+            {
+              this.state.loadingFlg ? <h5>Loading...</h5> : <ArtistSearchResult artists={this.state.artists} key={this.state.currentSearchText}></ArtistSearchResult>
+            }
           </div>
         </div>
       </div>

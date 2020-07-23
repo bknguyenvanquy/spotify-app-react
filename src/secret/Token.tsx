@@ -1,1 +1,1 @@
-export const TOKEN = `BQDDEycgyoc7dqK0OO6-5_hSPMzp8sWjXPw7mPPOiKyFKahQJpOZewDHponHbF8C6Ke_V9Rt-igp97y4FJYqtm-Vg_DcySKbI84iaIqEH3mZ4Gce2djPceZBjf_3vG5kdj2yeWaxaiS9wRGIZU-pftjcI-j-G1o`;
+export const TOKEN = `BQD2AGbTm1_haML9u5hAUzRpuDBx86yI2o9YeKQS7xxB4cxDQxx_QgDnYq3sdBmFZoG4_iyXzIR2V7nra9aHvY_RC0F_1GY_TJiDLib4uhmcclMdSEhrepM71vYC7U5hUA2CTcipsrkX9HuLFOPK-AXyfmZ-Y5Q`;

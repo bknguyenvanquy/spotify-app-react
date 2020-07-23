@@ -39,31 +39,33 @@ class ArtistTopTrack extends Component<ArtistTopTracktProps, any> {
 
     render() {
         return (
-            <ListGroupStyle className="list-group">
-                {
-                    this.props.topTracks.map((track: Track) => {
-                        return (
-                            <TrackItem key={track.id} className="list-group-item list-group-item-action">
-                                <WrapImageTrack>
-                                    <ImageTrack src={track.album.images[1] ? track.album.images[1].url : '/logo512.png'} alt="Track"/>
-                                </WrapImageTrack>
-                                <WrapContentTrack>
-                                    <div className="d-flex w-100 justify-content-between">
-                                        <h5 className="mb-1">{track.name}</h5>
-                                        <small>{track.album.release_date}</small>
-                                    </div>
-                                    <h6>Type: {track.type}</h6>
-                                    <hr />
-                                    {
-                                        track.preview_url ?
-                                            <div><AudioStyle controls><source src={track.preview_url} /></AudioStyle></div> : <p className="mb-1">No Preview URL</p>
-                                    }
-                                </WrapContentTrack>
-                            </TrackItem>
-                        )
-                    })
-                }
-            </ListGroupStyle>
+            <>
+                <ListGroupStyle className="list-group">
+                    {
+                        this.props.topTracks.map((track: Track) => {
+                            return (
+                                <TrackItem key={track.id} className="list-group-item list-group-item-action">
+                                    <WrapImageTrack>
+                                        <ImageTrack src={track.album.images[1] ? track.album.images[1].url : '/logo512.png'} alt="Track" />
+                                    </WrapImageTrack>
+                                    <WrapContentTrack>
+                                        <div className="d-flex w-100 justify-content-between">
+                                            <h5 className="mb-1">{track.name}</h5>
+                                            <small>{track.album.release_date}</small>
+                                        </div>
+                                        <h6>Type: {track.type}</h6>
+                                        <hr />
+                                        {
+                                            track.preview_url ?
+                                                <div><AudioStyle controls><source src={track.preview_url} /></AudioStyle></div> : <p className="mb-1">No Preview URL</p>
+                                        }
+                                    </WrapContentTrack>
+                                </TrackItem>
+                            )
+                        })
+                    }
+                </ListGroupStyle>
+            </>
         );
     }
 }
