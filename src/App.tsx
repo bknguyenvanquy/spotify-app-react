@@ -28,12 +28,23 @@ class App extends Component<any, AppState> {
       currentSearchText: ''
     }
   }
+
   onSearch = () => {
     axios.get(`/search?q=${encodeURI(this.inputRef.current.value)}&type=artist`)
       .then((response: any) => {
-        this.setState({ artists: response.data.artists.items, currentSearchText: this.inputRef.current.value});
+        this.setState({ artists: response.data.artists.items, currentSearchText: this.inputRef.current.value });
       });
   }
+
+
+  onSearchEnter = (e: any) => {
+    if (e.keyCode !== 13) {
+      return;
+    } else {
+      this.onSearch();
+    }
+  }
+
   render() {
     return (
       <div className="container">
@@ -46,12 +57,13 @@ class App extends Component<any, AppState> {
               className="form-control"
               placeholder="Search Artist"
               aria-label="Search Artist"
-              aria-describedby="basic-addon2" />
+              aria-describedby="basic-addon2"
+              onKeyUp={this.onSearchEnter} />
             <div className="input-group-append">
               <button className="btn btn-outline-secondary" type="button" onClick={this.onSearch}>Search</button>
             </div>
           </div>
-          <div className="artists-search-result" style={{width: '100%'}}>
+          <div className="artists-search-result" style={{ width: '100%' }}>
             <ArtistSearchResult artists={this.state.artists} key={this.state.currentSearchText}></ArtistSearchResult>
           </div>
         </div>

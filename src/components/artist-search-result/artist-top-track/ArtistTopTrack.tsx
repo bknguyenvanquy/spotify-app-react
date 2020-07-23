@@ -8,9 +8,14 @@ const TrackItem = styled.div`
     justify-content: space-between;
 `
 
+const ListGroupStyle = styled.div`
+    max-height: 500px;
+    overflow-y: scroll;
+`
+
 const WrapImageTrack = styled.div`
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
 `
 
 const ImageTrack = styled.img`
@@ -19,7 +24,11 @@ const ImageTrack = styled.img`
 `
 
 const WrapContentTrack = styled.div`
-    width: calc(100% - 250px);
+    width: calc(100% - 200px);
+`
+
+const AudioStyle = styled.audio`
+    width: 100%;
 `
 
 interface ArtistTopTracktProps {
@@ -27,15 +36,10 @@ interface ArtistTopTracktProps {
 }
 
 class ArtistTopTrack extends Component<ArtistTopTracktProps, any> {
-    constructor(props: ArtistTopTracktProps) {
-        super(props);
-    }
 
     render() {
-        
-        console.log(this.props);
         return (
-            <div className="list-group">
+            <ListGroupStyle className="list-group">
                 {
                     this.props.topTracks.map((track: Track) => {
                         return (
@@ -49,18 +53,17 @@ class ArtistTopTrack extends Component<ArtistTopTracktProps, any> {
                                         <small>{track.album.release_date}</small>
                                     </div>
                                     <h6>Type: {track.type}</h6>
-                                    <br />
                                     <hr />
                                     {
                                         track.preview_url ?
-                                            <div><audio controls><source src={track.preview_url} /></audio></div> : <p className="mb-1">No Preview URL</p>
+                                            <div><AudioStyle controls><source src={track.preview_url} /></AudioStyle></div> : <p className="mb-1">No Preview URL</p>
                                     }
                                 </WrapContentTrack>
                             </TrackItem>
                         )
                     })
                 }
-            </div>
+            </ListGroupStyle>
         );
     }
 }
