@@ -17,6 +17,7 @@ interface AppState {
   artists: Artist[],
   currentSearchText: string;
   loadingFlg: boolean;
+  errorFlg: boolean;
 }
 
 class App extends Component<any, AppState> {
@@ -27,15 +28,19 @@ class App extends Component<any, AppState> {
     this.state = {
       artists: [],
       currentSearchText: '',
-      loadingFlg: false
+      loadingFlg: false,
+      errorFlg: false
     }
   }
 
   onSearch = () => {
-    this.setState({loadingFlg: true});
+    this.setState({ loadingFlg: true, errorFlg: false });
     axios.get(`/search?q=${encodeURI(this.inputRef.current.value)}&type=artist`)
       .then((response: any) => {
         this.setState({ artists: response.data.artists.items, currentSearchText: this.inputRef.current.value, loadingFlg: false });
+      })
+      .catch(err => {
+        this.setState({ loadingFlg: false, errorFlg: true });
       });
   }
 
@@ -49,6 +54,14 @@ class App extends Component<any, AppState> {
   }
 
   render() {
+    let result;
+    if (this.state.loadingFlg) {
+      result = <h5>Loading...</h5>
+    } else if (this.state.errorFlg) {
+      result = <h5>Load Data Fail.</h5>
+    } else {
+      result = !this.state.artists.length && !!this.inputRef.current?.value ? <h5>No Result.</h5> : <ArtistSearchResult artists={this.state.artists} key={this.state.currentSearchText}></ArtistSearchResult>
+    }
     return (
       <div className="container">
         <br />
@@ -68,7 +81,7 @@ class App extends Component<any, AppState> {
           </div>
           <div className="artists-search-result" style={{ width: '100%' }}>
             {
-              this.state.loadingFlg ? <h5>Loading...</h5> : <ArtistSearchResult artists={this.state.artists} key={this.state.currentSearchText}></ArtistSearchResult>
+              result
             }
           </div>
         </div>

@@ -23,37 +23,51 @@ const CardBody = styled.div`
     padding: 10px;
 `
 
+const CardImage = styled.img`
+    border-radius: 50%;
+`
+
 interface ArtistSearchResultProps {
-    artists: Artist[]
+    artists: Artist[];
 }
 
 interface ArtistSearchResultState {
-    topTracks: Track[],
-    loadingFlg: boolean
+    topTracks: Track[];
+    loadingFlg: boolean;
+    errorFlg: boolean;
 }
 
 class ArtistSearchResult extends Component<ArtistSearchResultProps, ArtistSearchResultState> {
-
-    // loadingFlg: boolean = false;
-
     constructor(props: ArtistSearchResultProps) {
         super(props);
         this.state = {
             topTracks: [],
-            loadingFlg: false
+            loadingFlg: false,
+            errorFlg: false
         }
     }
 
     onSearchTopTrack = (artist: Artist) => {
-        this.setState({ loadingFlg: true });
+        this.setState({ loadingFlg: true, errorFlg: false });
         axios.get(`artists/${artist.id}/top-tracks?country=US`)
             .then((response: any) => {
                 this.setState({ topTracks: response.data.tracks, loadingFlg: false });
-                // this.loadingFlg = false;
+            })
+            .catch(err => {
+                this.setState({ loadingFlg: false, errorFlg: true });
+                console.log(err);
             });
     }
 
     render() {
+        let result; 
+        if (this.state.loadingFlg) {
+            result = <h5>Loading...</h5>
+          } else if (this.state.errorFlg) {
+            result = <h5>Load Data Fail.</h5>
+          } else {
+            result = <ArtistTopTrack topTracks={this.state.topTracks}></ArtistTopTrack>
+          }
         return (
             <div>
                 <WrapListArtists>
@@ -61,12 +75,12 @@ class ArtistSearchResult extends Component<ArtistSearchResultProps, ArtistSearch
                         this.props.artists.map((artist: Artist) => {
                             return (
                                 <ArtistItem className="card" key={artist.id} onClick={() => this.onSearchTopTrack(artist)}>
-                                    <img className="card-img-top" src={artist.images[0] ? artist.images[0]?.url : '/unknown.png'} alt="Artist" />
+                                    <CardImage className="card-img-top" src={artist.images[1] ? artist.images[1]?.url : '/unknown.png'} alt="Artist" />
                                     <CardBody className="card-body">
                                         <h5 className="card-title">{artist.name}</h5>
                                         <p className="card-text">Genres: {artist.genres[0] ? artist.genres[0] : 'Unknow'}</p>
                                         <p className="card-text">Popularity: {artist.popularity}</p>
-                                    </CardBody>
+                                    </CardBody> 
                                 </ArtistItem>
                             );
                         })
@@ -74,7 +88,7 @@ class ArtistSearchResult extends Component<ArtistSearchResultProps, ArtistSearch
                 </WrapListArtists>
                 <br /><br />
                 {
-                    this.state.loadingFlg ? <h5>Loading...</h5> : <ArtistTopTrack topTracks={this.state.topTracks}></ArtistTopTrack>
+                    result
                 }
             </div>
         );
